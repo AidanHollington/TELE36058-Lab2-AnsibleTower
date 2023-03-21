@@ -1,0 +1,15 @@
+- name: Survey playbook
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+    - name: name_response
+      prompt: "What is your name?"
+    - name: feedback_response
+      prompt: "What is your feedback?"
+
+  tasks:
+    - name: Display survey results
+      debug:
+        msg: "Name: {{ name_response }} Feedback: {{ feedback_response }}"
