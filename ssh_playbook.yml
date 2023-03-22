@@ -1,0 +1,40 @@
+---
+- name: ssh to other VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+    - name: device_hostname
+      prompt: "Enter hostname of ip address of the PC "
+      private: no
+
+    - name: ssh_port
+      prompt: "Enter SSH port number (default to 22 if no entry) "
+      private: no
+      default: 22
+
+    - name: ssh_username
+      prompt: "Enter username for ssh connection "
+      private: no
+
+    - name: ssh_password
+      prompt: "Enter password for ssh conenction (optional) "
+      private: yes
+
+  tasks:
+    - name: set connection varibles
+      set_fact:
+        ansible_host: "{{ device_hostname }}"
+        ansible_user: "{{ ssh_username }}"
+        ansible_port: "{{ ssh_port }}"
+        ansible_password: "{{ ssh_password }}"
+
+    - name: Test connection to device
+      ping:
+
+    - name: print succesfull message
+      debug:
+        msg: "Connection to {{ ansible_host }}"
+
+
