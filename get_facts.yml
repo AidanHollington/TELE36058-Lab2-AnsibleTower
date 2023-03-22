@@ -1,0 +1,29 @@
+---
+- name: Get basic information from Cisco IOS routers
+  hosts: ios_routers
+  tasks:
+    - name: Get facts from IOS routers
+      cisco.ios.ios_facts:
+        gather_network_resources: interfaces
+        gather_subset: interfaces
+
+
+    - name: Get hostname
+      debug:
+        msg: "Hostname: {{ ansible_net_hostname }}"
+
+    - name: Get model
+      debug:
+        msg: "Model: {{ ansible_net_model }}"
+
+    - name: Get IOS version
+      debug:
+        msg: "IOS version: {{ ansible_net_version }}"
+
+    - name: Get router serial number
+      debug:
+        msg: "S/N: {{ ansible_net_serialnum }}"
+
+    - name: Get interfaces
+      debug:
+        msg: "Interfaces: {{ ansible_net_interfaces }}"
