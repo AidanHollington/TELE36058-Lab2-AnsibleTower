@@ -1,0 +1,24 @@
+---
+- name: send commands
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_prompt:
+    - name: router_host
+      prompt: "What is the hostname or IP address of the router?"
+      private: no
+    - name: router_username
+      prompt: "What is the username for SSH authentication?"
+      private: no
+    - name: router_password
+      prompt: "what is the password for SSH authentication"
+      private: no
+    - name: command
+      prompt: "What command do you want to run on the router?"
+      private: no
+  tasks:
+    - name: Run command on router
+      command: sshpass -p "{{ router_password }}" ssh -o StrictHostKeyChecking=no {{ router_username }}@{{ router_host }} "{{ command }}"
+      register: result
+      ignore_errors: true
+    - debug: var=result.stdout_lines
